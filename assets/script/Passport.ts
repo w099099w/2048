@@ -1,15 +1,7 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Passport extends cc.Component {
-
     private _startPos: cc.Vec2;
     private _dir: number;
     private _tween: BlockTween;
@@ -27,13 +19,14 @@ export default class Passport extends cc.Component {
         }
 
         let angle = this.getAngle(angx, angy);
-        if (angle >= -135 && angle <= -45) {
+        //允许30度偏移
+        if (angle >= -105 && angle <= -75) {
             result = 0;
-        } else if (angle > 45 && angle < 135) {
+        } else if (angle > 75 && angle < 105) {
             result = 1;
-        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+        } else if ((angle >= 165 && angle <= 180) || (angle >= -180 && angle < -165)) {
             result = 2;
-        } else if (angle >= -45 && angle <= 45) {
+        } else if (angle >= -15 && angle <= 15) {
             result = 3;
         }
         return result;
@@ -61,10 +54,10 @@ export default class Passport extends cc.Component {
 
         let moveBy: cc.Vec3 = null;
         switch (this._dir) {
-            case 3: moveBy = new cc.Vec3(100, 0, 0); break;
-            case 2: moveBy = new cc.Vec3(-100, 0, 0); break;
-            case 1: moveBy = new cc.Vec3(0, 100, 0); break;
-            case 0: moveBy = new cc.Vec3(0, -100, 0); break;
+            case 3: moveBy = new cc.Vec3(100, 0, 0); break;//right
+            case 2: moveBy = new cc.Vec3(-100, 0, 0); break;//left
+            case 1: moveBy = new cc.Vec3(0, 100, 0); break;//up
+            case 0: moveBy = new cc.Vec3(0, -100, 0); break;//down
             default: return;
         }
         if (cc.find('one', this.node).x + moveBy.x > 350 || cc.find('one', this.node).x + moveBy.x < -350) {
@@ -85,7 +78,6 @@ export default class Passport extends cc.Component {
                 }).start()
             }
         }
-
     }
     // update (dt) {}
 }
