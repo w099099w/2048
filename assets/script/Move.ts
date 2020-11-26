@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Passport extends cc.Component {
+export default class Move extends cc.Component {
     private _startPos: cc.Vec2;
     private _dir: number;
     private _tween: BlockTween;
@@ -16,6 +16,8 @@ export default class Passport extends cc.Component {
         //如果滑动距离太短
         if (Math.abs(angx) < 100 && Math.abs(angy) < 100) {
             return result;
+        }else{
+
         }
 
         let angle = this.getAngle(angx, angy);
@@ -31,7 +33,7 @@ export default class Passport extends cc.Component {
         }
         return result;
     }
-    start() {
+    public addMoveEvent() {
         this.node.on('touchstart', (event: cc.Touch) => {
             this._startPos = event.getLocation();
         })
@@ -50,8 +52,12 @@ export default class Passport extends cc.Component {
             this.move();
         })
     }
+    public closeMoveEvent(){
+        this.node.off('touchstart');
+        this.node.off('touchend');
+        this.node.off('touchcancel');
+    }
     move() {
-
         let moveBy: cc.Vec3 = null;
         switch (this._dir) {
             case 3: moveBy = new cc.Vec3(100, 0, 0); break;//right
@@ -59,11 +65,6 @@ export default class Passport extends cc.Component {
             case 1: moveBy = new cc.Vec3(0, 100, 0); break;//up
             case 0: moveBy = new cc.Vec3(0, -100, 0); break;//down
             default: return;
-        }
-        if (cc.find('one', this.node).x + moveBy.x > 350 || cc.find('one', this.node).x + moveBy.x < -350) {
-            return;
-        } else if (cc.find('one', this.node).x + moveBy.x > (1334 / 2) || cc.find('one', this.node).x + moveBy.x < -(1334 / 2)) {
-            return;
         }
         if (this._tween) {
             this._tween.tween.stop();
