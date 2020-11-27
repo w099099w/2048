@@ -19,11 +19,10 @@ export default class GameView extends View {
             this.addEvent();
         }
         this.cl_Move.addMoveEvent();
+        this.cl_Move.startGame();
     }
     protected addEvent() {
-        this.button_back.on('touchend', () => {
-            this.viewHide();
-        })
+        this.button_back.on('touchend', this.viewHide.bind(this));
     }
     private viewHide() {
         this.cl_Move.closeMoveEvent();
@@ -43,6 +42,6 @@ export default class GameView extends View {
         }).start();
     }
     protected hideEvent() {
-
+        this.button_back.off('touchend');
     }
 }

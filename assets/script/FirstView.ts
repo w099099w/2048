@@ -11,7 +11,7 @@ export default class FirstView extends View {
         this.button_fkMode = cc.find('button_fk', ViewNode);
         this.init();
     }
-    protected init() {
+    public init() {
         if (!this.viewNode.active) {
             this.viewShow();
         } else {
@@ -19,12 +19,8 @@ export default class FirstView extends View {
         }
     }
     protected addEvent() {
-        this.button_jdMode.on('touchend', () => {
-            this.viewHide();
-        })
-        this.button_fkMode.on('touchend', () => {
-            this.viewHide();
-        })
+        this.button_jdMode.on('touchend', this.viewHide.bind(this));
+        this.button_fkMode.on('touchend', this.viewHide.bind(this));
     }
     private viewHide() {
         this.hideEvent();
@@ -43,6 +39,7 @@ export default class FirstView extends View {
         }).start();
     }
     protected hideEvent() {
-
+        this.button_fkMode.off('touchend');
+        this.button_jdMode.off('touchend');
     }
 }
